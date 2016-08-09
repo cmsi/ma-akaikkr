@@ -1,0 +1,59 @@
+--- a/makefile
++++ b/makefile
+@@ -3,20 +3,23 @@
+ # The corresponding compiler option also should be given 
+ # by "flag= ".
+ #fort = f77
+-#fort = gfortran
++fort = gfortran
++flag = -O3
+ #.PHONY: all
+ #all: $(program) gpd
+-fort = ifort
+-flag = -mp1 -i-dynamic
++#fort = ifort
++#flag = -mp1 -i-dynamic
+ # If openMP is not installed the following two lines should be
+ # replaced by 
+ #omp =
+ #nomp =
+-omp = -openmp
+-nomp = -openmp-stubs
++omp = -fopenmp
++nomp = 
+ libs =
+ 
+ program = specx
++utility = fmg
++prefix = $(DESTDIR)/usr
+ objs = \
+ source/$(program).o \
+ source/spmain.o \
+@@ -212,12 +215,26 @@
+ source/xtoken.o \
+ source/zroots.o
+ 
++default: $(program) $(utility) gpd
+ $(program): $(objs)
+-	@$(fort) -o $(program) $(flag) $(omp) $(objs) $(libs)
++	$(fort) -o $(program) $(flag) $(omp) $(objs) $(libs)
+ source/specx.o: source/specx.f
+ 	$(fort) $(flag) $(nomp) -o $@ -c $<
++$(utility): util/fmg.f
++	$(fort) -o $(utility) $(flag) util/fmg.f $(libs)
+ .f.o:
+ 	$(fort) $(flag) $(omp) -o $(<:.f=.o) -c $<
+ 
+ gpd: source/gpd.f
+ 	$(fort) $(flag) -o $@ $<
++
++install: $(program) $(utility) gpd
++	mkdir -p $(prefix)/bin $(prefix)/share/akaikkr/in $(prefix)/share/akaikkr/util
++	cp $(program) $(utility) gpd $(prefix)/bin
++	chmod 755 $(prefix)/bin/$(program) $(prefix)/share/akaikkr/in $(prefix)/share/akaikkr/util
++	cp -p in/* $(prefix)/share/akaikkr/in
++	cp -p util/* $(prefix)/share/akaikkr/util
++	chmod 644 $(prefix)/share/akaikkr/in/* $(prefix)/share/akaikkr/util/*
++clean:
++	rm -f $(program) $(utility) gpd source/*.o
++
