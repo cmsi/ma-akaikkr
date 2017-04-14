@@ -1,59 +1,61 @@
 --- a/makefile
 +++ b/makefile
-@@ -3,20 +3,23 @@
- # The corresponding compiler option also should be given 
- # by "flag= ".
- #fort = f77
--#fort = gfortran
-+fort = gfortran
-+flag = -O3
- #.PHONY: all
- #all: $(program) gpd
+@@ -13,10 +13,10 @@
+ #      Intel compiler used
+ # In the case of ifort 16.0.0 or later
+ #######################################
 -fort = ifort
--flag = -mp1 -i-dynamic
+-flag = -O2 -mcmodel=medium
+-omp = -qopenmp
+-nomp = -qopenmp-stubs
 +#fort = ifort
-+#flag = -mp1 -i-dynamic
- # If openMP is not installed the following two lines should be
- # replaced by 
- #omp =
- #nomp =
--omp = -openmp
--nomp = -openmp-stubs
++#flag = -O2 -mcmodel=medium
++#omp = -qopenmp
++#nomp = -qopenmp-stubs
+ #
+ #######################################
+ #      Intel compiler used
+@@ -33,13 +33,13 @@
+ #      GNU Fortran compiler used
+ # In the case of gfortran
+ #######################################
+-#fort = gfortran
+-#flag = -O2
+-#omp = -fopenmp
+-#nomp =
++fort = gfortran
++flag = -O2
 +omp = -fopenmp
-+nomp = 
- libs =
- 
++nomp =
+ #
  program = specx
-+utility = fmg
-+prefix = $(DESTDIR)/usr
+-#all: $(program) gpd spc
++all: $(program) gpd spc
  objs = \
  source/$(program).o \
  source/spmain.o \
-@@ -212,12 +215,26 @@
- source/xtoken.o \
+@@ -248,7 +248,7 @@
  source/zroots.o
  
-+default: $(program) $(utility) gpd
  $(program): $(objs)
--	@$(fort) -o $(program) $(flag) $(omp) $(objs) $(libs)
-+	$(fort) -o $(program) $(flag) $(omp) $(objs) $(libs)
- source/specx.o: source/specx.f
- 	$(fort) $(flag) $(nomp) -o $@ -c $<
-+$(utility): util/fmg.f
-+	$(fort) -o $(utility) $(flag) util/fmg.f $(libs)
- .f.o:
- 	$(fort) $(flag) $(omp) -o $(<:.f=.o) -c $<
+-	@$(fort) -o $@ $(flag) $(omp) $(objs) $(libs)
++	$(fort) -o $@ $(flag) $(omp) $(objs) $(libs)
  
- gpd: source/gpd.f
- 	$(fort) $(flag) -o $@ $<
+ source/specx.o: source/specx.f
+ 	$(fort) $(flag) -o $(<:.f=.o) -c $<
+@@ -261,3 +261,15 @@
+ 
+ spc: source/spc.f
+ 	$(fort) $(flag) $(omp) -o $@ $<
 +
-+install: $(program) $(utility) gpd
-+	mkdir -p $(prefix)/bin $(prefix)/share/akaikkr/in $(prefix)/share/akaikkr/util
-+	cp $(program) $(utility) gpd $(prefix)/bin
-+	chmod 755 $(prefix)/bin/$(program) $(prefix)/share/akaikkr/in $(prefix)/share/akaikkr/util
-+	cp -p in/* $(prefix)/share/akaikkr/in
-+	cp -p util/* $(prefix)/share/akaikkr/util
-+	chmod 644 $(prefix)/share/akaikkr/in/* $(prefix)/share/akaikkr/util/*
++install: $(program) gpd spc
++	install -d $(DESTDIR)/usr/bin
++	install -d $(DESTDIR)/usr/share/akaikkr/in
++	install -d $(DESTDIR)/usr/share/akaikkr/util
++	install $(program) gpd spc $(DESTDIR)/usr/bin
++	cp -p in/* $(DESTDIR)/usr/share/akaikkr/in
++	cp -p util/* $(DESTDIR)/usr/share/akaikkr/util
++	chmod 644 $(DESTDIR)/usr/share/akaikkr/in/* $(DESTDIR)/usr/share/akaikkr/util/*
 +clean:
-+	rm -f $(program) $(utility) gpd source/*.o
++	rm -f $(program) gpd spc source/*.o
 +

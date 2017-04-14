@@ -1,10 +1,17 @@
-akaikkr (20140905-1) wheezy; urgency=low
+akaikkr (20170222-1) unstable; urgency=low
+
+  * Update upstream to version 20170222
+  * Added support for Jessie
+
+ -- Synge Todo <wistaria@phys.s.u-tokyo.ac.jp>  Fri, 14 Apr 2017 19:30:56 +0900
+
+akaikkr (20140905-1) unstable; urgency=low
 
   * Update upstream to version 20140905 (supported OpenMP parallelization)
 
  -- Synge Todo <wistaria@phys.s.u-tokyo.ac.jp>  Mon, 15 Sep 2014 15:58:28 +0900
 
-akaikkr (20130914-1) wheezy; urgency=low
+akaikkr (20130914-1) unstable; urgency=low
 
   * Initial debian package for AkaiKKR (previously known as Machikanayama2002)
 

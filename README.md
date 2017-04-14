@@ -4,24 +4,16 @@
 
 1. ソースファイルの準備 (ホスト上で)
 
-    * $HOME/vagrant/data/src に cpa2002v009c.p131212.tgz をダウンロード
+    * $HOME/vagrant/data/src に cpa2002v009c.tgz を cpa2002v009-20170222.tgz としてダウンロード
 
-2. ビルドディレクトリの準備
+2. パッケージのビルド
 
-        cd $HOME/build
-        sh /development/ma-akaikkr/setup.sh
+        sh $HOME/vagrant/development/ma-akaikkr/host-build.sh
 
-3. パッケージのビルド
+3. パッケージへの署名
 
-        cd $HOME/build
-        sh /development/ma-akaikkr/build.sh 2>&1 | tee build.log
-
-4. パッケージへの署名
-
-        cd $HOME/build
-        debsign akaikkr_*.changes 
+        sh $HOME/vagrant/development/ma-akaikkr/host-sign.sh
 
 5. リポジトリへの登録
 
-        cd $HOME/build
-        sh /development/MateriAppsLive/repos/add_repo.sh akaikkr_*.changes
+        sh $HOME/vagrant/development/MateriAppsLive/repos/host-add.sh akaikkr
