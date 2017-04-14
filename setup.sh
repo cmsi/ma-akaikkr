@@ -10,6 +10,7 @@ fi
 rm -rf $BUILD_DIR
 set -x
 
+mkdir -p $(dirname $BUILD_DIR)
 cd $(dirname $BUILD_DIR)
 tar zxf $DATA_DIR/cpa2002v009c-$VERSION_BASE.tgz
 mv cpa2002v009c akaikkr-$VERSION_BASE
