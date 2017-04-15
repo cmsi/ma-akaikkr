@@ -12,8 +12,8 @@
 
 3. パッケージへの署名
 
-        sh $HOME/vagrant/development/ma-akaikkr/host-sign.sh
+        sh $HOME/vagrant/development/MateriAppsLive/repos/host-sign.sh akaikkr
 
-5. リポジトリへの登録
+4. リポジトリへの登録
 
         sh $HOME/vagrant/development/MateriAppsLive/repos/host-add.sh akaikkr
