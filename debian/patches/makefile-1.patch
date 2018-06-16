@@ -1,32 +1,33 @@
 --- a/makefile
 +++ b/makefile
-@@ -13,10 +13,10 @@
+@@ -13,11 +13,11 @@
  #      Intel compiler used
  # In the case of ifort 16.0.0 or later
  #######################################
 -fort = ifort
++#fort = ifort
+ #flag = -O2 -mcmodel=medium -ftrapuv -traceback
 -flag = -O2 -mcmodel=medium
 -omp = -qopenmp
 -nomp = -qopenmp-stubs
-+#fort = ifort
 +#flag = -O2 -mcmodel=medium
 +#omp = -qopenmp
 +#nomp = -qopenmp-stubs
  #
  #######################################
  #      Intel compiler used
-@@ -33,13 +33,13 @@
+@@ -34,14 +34,14 @@
  #      GNU Fortran compiler used
  # In the case of gfortran
  #######################################
 -#fort = gfortran
 -#flag = -O2
--#omp = -fopenmp
--#nomp =
 +fort = gfortran
 +flag = -O2
+ #flag = -O2 -mcmodel=medium
+-#omp = -fopenmp
 +omp = -fopenmp
-+nomp =
+ #nomp =
  #
  program = specx
 -#all: $(program) gpd spc
@@ -34,16 +35,7 @@
  objs = \
  source/$(program).o \
  source/spmain.o \
-@@ -248,7 +248,7 @@
- source/zroots.o
- 
- $(program): $(objs)
--	@$(fort) -o $@ $(flag) $(omp) $(objs) $(libs)
-+	$(fort) -o $@ $(flag) $(omp) $(objs) $(libs)
- 
- source/specx.o: source/specx.f
- 	$(fort) $(flag) -o $(<:.f=.o) -c $<
-@@ -261,3 +261,15 @@
+@@ -265,3 +265,15 @@
  
  spc: source/spc.f
  	$(fort) $(flag) $(omp) -o $@ $<
