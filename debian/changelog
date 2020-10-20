@@ -1,3 +1,15 @@
+akaikkr (20200910-1) unstable; urgency=low
+
+  * New upstream version 20200910 (cpa2002v010)
+
+ -- Synge Todo <wistaria@phys.s.u-tokyo.ac.jp>  Tue, 20 Oct 2020 13:56:46 +0900
+
+akaikkr (20200903-1) unstable; urgency=low
+
+  * New upstream version 20200903 (cpa2002v010)
+
+ -- Synge Todo <wistaria@phys.s.u-tokyo.ac.jp>  Wed, 09 Sep 2020 20:52:47 +0900
+
 akaikkr (20180822-1) unstable; urgency=low
 
   * Update upstream to version 20180822 (cpa2002v010)

@@ -1,0 +1,37 @@
+--- a/makefile
++++ b/makefile
+@@ -12,15 +12,15 @@
+ #
+ #######################################
+ # specify the fortran compiler
+-fort = ifort
+-#fort = gfortran
++#fort = ifort
++fort = gfortran
+ #######################################
+ ifeq ($(fort),ifort)
+ 	flag = -O2 -mcmodel=medium
+ 	omp = -qopenmp
+ 	nomp = -qopenmp-stubs
+ else
+-	flag = -O2 
++	flag = -O2 -Wall
+ 	omp = -fopenmp
+ 	nomp =
+ endif
+@@ -266,3 +266,15 @@
+ 
+ spc: source/spc.f
+ 	$(fort) $(flag) $(omp) -o $@ $<
++
++install: $(program) gpd spc
++	install -d $(DESTDIR)/usr/bin
++	install -d $(DESTDIR)/usr/share/akaikkr/in
++	install -d $(DESTDIR)/usr/share/akaikkr/util
++	install $(program) gpd spc $(DESTDIR)/usr/bin
++	cp -p in/* $(DESTDIR)/usr/share/akaikkr/in
++	cp -p util/* $(DESTDIR)/usr/share/akaikkr/util
++	chmod 644 $(DESTDIR)/usr/share/akaikkr/in/* $(DESTDIR)/usr/share/akaikkr/util/*
++clean:
++	rm -f $(program) gpd spc source/*.o
++
