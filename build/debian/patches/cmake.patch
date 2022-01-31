@@ -1,7 +1,7 @@
 --- /dev/null
 +++ b/CMakeLists.txt
 @@ -0,0 +1,236 @@
-+cmake_minimum_required(VERSION 3.10)
++cmake_minimum_required(VERSION 3.7)
 +project(akaikkr Fortran)
 +
 +find_package(OpenMP)
